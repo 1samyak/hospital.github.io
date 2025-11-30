@@ -1,0 +1,690 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    /* --- Modern Hero Section --- */
+    .hero-wrapper {
+        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        padding: 80px 20px;
+        border-radius: 0 0 50px 50px;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-text {
+        max-width: 600px;
+    }
+
+    .hero-text h1 {
+        font-size: 3.5rem;
+        line-height: 1.2;
+        margin: 20px 0;
+        color: #2c3e50;
+        font-weight: 800;
+    }
+
+    .highlight-text {
+        color: #007bff;
+    }
+
+    .hero-subtext {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 30px;
+        max-width: 500px;
+        line-height: 1.6;
+    }
+
+    .badge-new {
+        background-color: #e3f2fd;
+        color: #007bff;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Hero Visual */
+    .hero-visual {
+        position: relative;
+        width: 40%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .hero-bg-icon {
+        color: rgba(0, 123, 255, 0.05);
+        animation: pulse 3s infinite ease-in-out;
+    }
+
+    .floating-card {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        min-width: 180px;
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+    }
+
+    /* Buttons */
+    .btn-lg {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+    .shadow-btn {
+        box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        transition: transform 0.2s;
+    }
+
+    .shadow-btn:hover {
+        transform: translateY(-3px);
+        background-color: #0056b3;
+    }
+
+    .btn-outline {
+        background: transparent;
+        border: 2px solid #007bff;
+        color: #007bff;
+        padding: 10px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        margin-left: 15px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .btn-outline:hover {
+        background: #007bff;
+        color: white;
+    }
+
+    .welcome-back-box {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid #007bff;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .welcome-back-box p {
+        margin: 0 0 10px 0;
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    /* Emergency Banner */
+    .emergency-banner {
+        background-color: #ffebee;
+        color: #c62828;
+        text-align: center;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 0 auto 60px;
+        max-width: 900px;
+        border: 1px solid #ffcdd2;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .emergency-banner a {
+        color: #b71c1c;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    /* NEW: Hospital Showcase Section */
+    .hospital-showcase {
+        max-width: 1200px;
+        margin: 60px auto;
+        padding: 0 20px;
+    }
+
+    .showcase-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .showcase-item {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s;
+    }
+
+    .showcase-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .showcase-img {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: white;
+    }
+
+    .showcase-content {
+        padding: 25px;
+    }
+
+    .showcase-content h3 {
+        color: #333;
+        margin-bottom: 12px;
+        font-size: 1.3rem;
+    }
+
+    .showcase-content p {
+        color: #666;
+        line-height: 1.7;
+        font-size: 0.95rem;
+    }
+
+    /* About Section with Image */
+    .about-section {
+        max-width: 1200px;
+        margin: 80px auto;
+        padding: 0 20px;
+    }
+
+    .about-flex {
+        display: flex;
+        gap: 50px;
+        align-items: center;
+    }
+
+    .about-image {
+        flex: 1;
+        min-width: 400px;
+        height: 400px;
+        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        color: white;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-text {
+        flex: 1;
+    }
+
+    .about-text h2 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    .about-text p {
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: #555;
+        margin-bottom: 15px;
+    }
+
+    .stats-row {
+        display: flex;
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .stat-box {
+        text-align: center;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        flex: 1;
+    }
+
+    .stat-box h3 {
+        font-size: 2rem;
+        color: #007bff;
+        margin-bottom: 5px;
+    }
+
+    .stat-box p {
+        font-size: 0.9rem;
+        color: #777;
+        margin: 0;
+    }
+
+    /* Services / Portals Section */
+    .services-section {
+        max-width: 1100px;
+        margin: 0 auto 60px;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .section-header p {
+        color: #777;
+        font-size: 1.1rem;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 0 20px;
+        justify-items: center;
+    }
+
+    .service-card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 15px;
+        text-align: left;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        transition: 0.3s;
+        border-top: 4px solid transparent;
+        max-width: 400px;
+        width: 100%;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        border-top-color: #007bff;
+        box-shadow: 0 15px 40px rgba(0, 123, 255, 0.1);
+    }
+
+    .icon-circle {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+
+    .bg-blue {
+        background: #e3f2fd;
+        color: #1976d2;
+    }
+
+    .service-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .service-card p {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .text-link {
+        color: #007bff;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: gap 0.2s;
+    }
+
+    .text-link:hover {
+        gap: 10px;
+        text-decoration: underline;
+    }
+
+    /* Features Footer */
+    .features-grid {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 80px;
+        padding: 50px 20px;
+        background-color: #f8f9fa;
+        border-top: 1px solid #eee;
+        text-align: center;
+        color: #555;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+
+    .feature-box {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .feature-box i {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        color: #bdc3c7;
+    }
+
+    .feature-box h4 {
+        color: #333;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+        .about-flex {
+            flex-direction: column;
+        }
+
+        .about-image {
+            min-width: 100%;
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-container {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .hero-visual {
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+        }
+
+        .stats-row {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn-outline {
+            margin-left: 0;
+        }
+
+        .grid-container {
+            grid-template-columns: 1fr;
+        }
+
+        .showcase-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<!-- HERO SECTION -->
+<section class="hero-wrapper">
+    <div class="hero-container">
+        <div class="hero-text">
+            <span class="badge-new">#1 Hospital in Delhi NCR</span>
+            <h1>Advanced Healthcare <br> <span class="highlight-text">Simplified.</span></h1>
+            <p class="hero-subtext">
+                Experience seamless patient care, instant appointment booking, and secure digital health records—all in
+                one unified platform.
+            </p>
+
+            <div class="hero-actions">
+                {% if session.user_id %}
+                <div class="welcome-back-box">
+                    <p>Welcome back, <strong>{{ session.username|capitalize }}</strong>!</p>
+
+                    {% if session.role == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}" class="btn-lg btn-primary shadow-btn">Go to Admin
+                        Dashboard <i class="fas fa-arrow-right"></i></a>
+                    {% elif session.role == 'doctor' %}
+                    <a href="{{ url_for('doctor_dashboard') }}" class="btn-lg btn-primary shadow-btn">Go to Doctor
+                        Dashboard <i class="fas fa-arrow-right"></i></a>
+                    {% else %}
+                    <a href="{{ url_for('patient_dashboard') }}" class="btn-lg btn-primary shadow-btn">Go to Patient
+                        Dashboard <i class="fas fa-arrow-right"></i></a>
+                    {% endif %}
+                </div>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="btn-lg btn-primary shadow-btn">Login to Portal</a>
+                <a href="{{ url_for('register') }}" class="btn-lg btn-outline">New Patient? Register</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="hero-visual">
+            <div class="floating-card">
+                <i class="fas fa-user-md fa-3x" style="color: #007bff; margin-bottom: 10px;"></i>
+                <p style="margin: 0; color: #333;"><strong>50+</strong> Specialist Doctors</p>
+                <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #777;">Available 24/7</p>
+            </div>
+            <i class="fas fa-heartbeat fa-10x hero-bg-icon"></i>
+        </div>
+    </div>
+</section>
+
+<!-- EMERGENCY BANNER -->
+<div class="emergency-banner">
+    <i class="fas fa-ambulance fa-lg"></i>
+    <span><strong>Emergency?</strong> Call us 24/7 at <a href="tel:+911122334455">+91-11-2233-4455</a> for immediate
+        assistance.</span>
+</div>
+
+<!-- ABOUT HOSPITAL SECTION WITH IMAGE -->
+<section class="about-section">
+    <div class="about-flex">
+        <div class="about-image">
+            <i class="fas fa-hospital"></i>
+        </div>
+        <div class="about-text">
+            <h2>About MediCore Hospital</h2>
+            <p>
+                MediCore Hospital is Delhi NCR's premier multi-specialty healthcare institution, committed to delivering
+                world-class medical services since 2010. Our state-of-the-art facility spans over 500,000 sq. ft.,
+                housing 500+ beds and equipped with cutting-edge medical technology.
+            </p>
+            <p>
+                We believe in patient-centered care, combining clinical excellence with compassion. Our team of over 50
+                specialist doctors, supported by 200+ nursing staff and paramedics, ensures that every patient receives
+                personalized attention and the highest quality treatment.
+            </p>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <h3>15+</h3>
+                    <p>Years of Service</p>
+                </div>
+                <div class="stat-box">
+                    <h3>50+</h3>
+                    <p>Specialist Doctors</p>
+                </div>
+                <div class="stat-box">
+                    <h3>10k+</h3>
+                    <p>Happy Patients</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HOSPITAL FACILITIES SHOWCASE -->
+<section class="hospital-showcase">
+    <div class="section-header">
+        <h2>Our World-Class Facilities</h2>
+        <p>Explore our comprehensive range of medical departments and services</p>
+    </div>
+
+    <div class="showcase-grid">
+        <!-- ICU -->
+        <div class="showcase-item">
+            <div class="showcase-img" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <i class="fas fa-procedures"></i>
+            </div>
+            <div class="showcase-content">
+                <h3>Intensive Care Unit (ICU)</h3>
+                <p>24/7 critical care with advanced life-support systems, specialized monitoring equipment, and a
+                    dedicated team of intensivists and nurses.</p>
+            </div>
+        </div>
+
+        <!-- Operating Rooms -->
+        <div class="showcase-item">
+            <div class="showcase-img" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <i class="fas fa-user-nurse"></i>
+            </div>
+            <div class="showcase-content">
+                <h3>Modular Operating Theaters</h3>
+                <p>12 fully-equipped, laminar-flow operation theaters with HD surgical imaging systems for precision
+                    surgeries across all specialties.</p>
+            </div>
+        </div>
+
+        <!-- Emergency -->
+        <div class="showcase-item">
+            <div class="showcase-img" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <i class="fas fa-ambulance"></i>
+            </div>
+            <div class="showcase-content">
+                <h3>Emergency & Trauma Center</h3>
+                <p>Round-the-clock emergency services with rapid response teams, trauma care specialists, and direct
+                    helipad access for critical cases.</p>
+            </div>
+        </div>
+
+        <!-- Radiology -->
+        <div class="showcase-item">
+            <div class="showcase-img" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <i class="fas fa-x-ray"></i>
+            </div>
+            <div class="showcase-content">
+                <h3>Advanced Radiology</h3>
+                <p>Latest 3.0 Tesla MRI, 128-slice CT scan, digital X-ray, mammography, and ultrasound facilities for
+                    accurate diagnostics.</p>
+            </div>
+        </div>
+
+        <!-- Cardiology -->
+        <div class="showcase-item">
+            <div class="showcase-img" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <i class="fas fa-heartbeat"></i>
+            </div>
+            <div class="showcase-content">
+                <h3>Cardiac Care Unit</h3>
+                <p>Comprehensive cardiac services including catheterization lab, open-heart surgery, angioplasty, and
+                    cardiac rehabilitation programs.</p>
+            </div>
+        </div>
+
+        <!-- Maternity -->
+        <div class="showcase-item">
+            <div class="showcase-img" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                <i class="fas fa-baby"></i>
+            </div>
+            <div class="showcase-content">
+                <h3>Maternity & Neonatal Care</h3>
+                <p>Specialized labor rooms, level-3 NICU, lactation support, and expert obstetricians ensuring safe
+                    deliveries and newborn care.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PATIENT PORTAL SECTION -->
+<section class="services-section">
+    <div class="section-header">
+        <h2>Patient Portal</h2>
+        <p>Your gateway to comprehensive healthcare management.</p>
+    </div>
+
+    <div class="grid-container">
+        <div class="service-card">
+            <div class="icon-circle bg-blue">
+                <i class="fas fa-user-injured"></i>
+            </div>
+            <h3>Patient Care Services</h3>
+            <p>Book appointments with specialist doctors, download prescriptions, view your complete medical history,
+                and manage your healthcare journey securely online.</p>
+            {% if not session.user_id %}
+            <a href="{{ url_for('register') }}" class="text-link">Register Now <i class="fas fa-arrow-right"></i></a>
+            {% else %}
+            <a href="{{ url_for('patient_dashboard') }}" class="text-link">Go to Dashboard <i
+                    class="fas fa-arrow-right"></i></a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES FOOTER -->
+<section class="features-grid">
+    <div class="feature-box">
+        <i class="fas fa-calendar-check"></i>
+        <h4>Instant Booking</h4>
+        <p>No waiting lines.</p>
+    </div>
+    <div class="feature-box">
+        <i class="fas fa-shield-alt"></i>
+        <h4>Secure Data</h4>
+        <p>Encrypted records.</p>
+    </div>
+    <div class="feature-box">
+        <i class="fas fa-hospital"></i>
+        <h4>World Class Care</h4>
+        <p>Top specialists.</p>
+    </div>
+    <div class="feature-box">
+        <i class="fas fa-notes-medical"></i>
+        <h4>Digital Records</h4>
+        <p>Access anytime.</p>
+    </div>
+</section>
+
+{% endblock %}

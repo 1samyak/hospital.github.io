@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2><i class="fas fa-user-injured"></i> Patient Dashboard</h2>
+    <a href="{{ url_for('patient_profile') }}" class="btn"><i class="fas fa-user-circle"></i> My Profile</a>
+</div>
+
+
+
+<div class="row" style="display: flex; gap: 20px;">
+
+    <!-- Left: Book Appointment -->
+    <div style="flex: 1;">
+        <div class="card">
+            <h3>Book Appointment</h3>
+            <form action="{{ url_for('book_appointment') }}" method="POST">
+                <div class="form-group">
+                    <label>Select Doctor</label>
+                    <select name="doctor_id" required>
+                        <option value="">-- Select Specialist --</option>
+                        {% for doc in doctors %}
+                        <option value="{{ doc.id }}">Dr. {{ doc.username }} ({{ doc.doctor_profile.department }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Date</label>
+                    <input type="date" name="date" required>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Right: Medical History (Matches Diagram "Patient History") -->
+    <div style="flex: 2;">
+        <div class="card">
+            <h3>My Medical History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Doctor</th>
+                        <th>Diagnosis</th>
+                        <th>Prescription</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in history %}
+                    <tr>
+                        <td>{{ record.date.strftime('%Y-%m-%d') }}</td>
+                        <td>Dr. {{ record.doctor.username }}</td>
+                        <td>{{ record.diagnosis or 'Pending' }}</td>
+                        <td>{{ record.prescription or 'Pending' }}</td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4">No records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

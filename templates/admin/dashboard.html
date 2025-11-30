@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block content %}
+<h2><i class="fas fa-user-shield"></i> Admin Dashboard</h2>
+
+<div class="row" style="display: flex; gap: 20px; flex-wrap: wrap;">
+
+    <!-- Left Column: Lists -->
+    <div style="flex: 2; min-width: 300px;">
+        <div class="card">
+            <h3>Registered Doctors</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Dept</th>
+                        <th>Experience</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in doctors %}
+                    <tr>
+                        <td>Dr. {{ doc.username }}</td>
+                        <td>{{ doc.doctor_profile.department }}</td>
+                        <td>{{ doc.doctor_profile.experience }} years</td>
+                        <td>
+                            <!-- Edit Button -->
+                            <a href="{{ url_for('edit_doctor', id=doc.id) }}" class="btn btn-warning"
+                                style="padding: 5px;" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <!-- Delete Button -->
+                            <a href="{{ url_for('delete_doctor', id=doc.id) }}" class="btn btn-danger"
+                                style="padding: 5px;" title="Delete"
+                                onclick="return confirm('Are you sure you want to delete Dr. {{ doc.username }}?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h3>Registered Patients</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pat in patients %}
+                    <tr>
+                        <td>{{ pat.username }}</td>
+                        <td>{{ pat.email }}</td>
+                        <td>
+                            <!-- Delete Patient -->
+                            <a href="{{ url_for('delete_patient', id=pat.id) }}" class="btn btn-danger"
+                                style="padding: 5px;" title="Delete"
+                                onclick="return confirm('Delete patient {{ pat.username }}? This will remove all their appointments.')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Right Column: Messages & Add Doctor -->
+    <div style="flex: 1; min-width: 300px;">
+
+        <!-- Recent Messages Section -->
+        <div class="card">
+            <h3><i class="fas fa-envelope"></i> Recent Messages</h3>
+            {% if messages %}
+            <div style="max-height: 400px; overflow-y: auto;">
+                {% for msg in messages %}
+                <div style="border-bottom: 1px solid #eee; padding: 10px 0;">
+                    <p style="margin: 0; font-weight: 600;">{{ msg.subject }}</p>
+                    <p style="margin: 5px 0; font-size: 0.9rem; color: #555;">{{ msg.message }}</p>
+                    <small style="color: #888;">From: {{ msg.name }} ({{ msg.email }})</small>
+                    <br>
+                    <small style="color: #aaa;">{{ msg.date_sent.strftime('%Y-%m-%d %H:%M') }}</small>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p style="color: #777;">No messages yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- Add Doctor Form -->
+        <div class="card">
+            <h3><i class="fas fa-user-md"></i> Add New Doctor</h3>
+            <form action="{{ url_for('add_doctor') }}" method="POST">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <input type="text" name="department" placeholder="e.g. Cardiology" required>
+                </div>
+                <div class="form-group">
+                    <label>Specialization</label>
+                    <input type="text" name="specialization" required>
+                </div>
+                <div class="form-group">
+                    <label>Experience (Years)</label>
+                    <input type="number" name="experience" required>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">Create Doctor</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block content %}
+<h2><i class="fas fa-stethoscope"></i> Doctor Dashboard</h2>
+
+<div class="row" style="display: flex; gap: 20px; flex-wrap: wrap;">
+
+    <!-- Left: Upcoming Appointments -->
+    <div style="flex: 2; min-width: 400px;">
+        <div class="card">
+            <h3>Upcoming Appointments</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Patient</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appt in appointments %}
+                    <tr>
+                        <td>#{{ appt.id }}</td>
+                        <td>{{ appt.patient.username }}</td>
+                        <td>{{ appt.date.strftime('%Y-%m-%d') }}</td>
+                        <td>
+                            {% if appt.status == 'Completed' %}
+                            <span class="badge" style="color: green;">Completed</span>
+                            {% else %}
+                            <a href="#treat-{{ appt.id }}" class="btn btn-success"
+                                onclick="document.getElementById('treat-{{ appt.id }}').style.display='block'">Treat</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+
+                    <!-- Hidden Treatment Form (Matches "Update Patient History" in Diagram) -->
+                    <tr id="treat-{{ appt.id }}" style="display: none; background: #f8f9fa;">
+                        <td colspan="4">
+                            <form action="{{ url_for('complete_appointment', id=appt.id) }}" method="POST"
+                                style="padding: 15px;">
+                                <h4>Update History for {{ appt.patient.username }}</h4>
+                                <div class="form-group">
+                                    <label>Diagnosis</label>
+                                    <input type="text" name="diagnosis" placeholder="e.g. Viral Fever" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Prescribed Medicines</label>
+                                    <textarea name="prescription" placeholder="Medicine 1-0-1..." required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save & Complete</button>
+                                <button type="button" class="btn btn-warning"
+                                    onclick="document.getElementById('treat-{{ appt.id }}').style.display='none'">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Right: Availability -->
+    <div style="flex: 1; min-width: 300px;">
+        <div class="card">
+            <h3>My Availability</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Click on time slots to toggle availability</p>
+
+            <style>
+                .time-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                    gap: 10px;
+                    margin-bottom: 15px;
+                }
+
+                .time-slot {
+                    padding: 12px 8px;
+                    text-align: center;
+                    border-radius: 8px;
+                    font-size: 0.85rem;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    border: 2px solid transparent;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+
+                .time-slot:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+                }
+
+                .time-slot.available {
+                    background: linear-gradient(135deg, #68d391 0%, #48bb78 100%);
+                    color: white;
+                }
+
+                .time-slot.unavailable {
+                    background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
+                    color: white;
+                }
+
+                .day-section {
+                    margin-bottom: 20px;
+                }
+
+                .day-header {
+                    font-weight: 600;
+                    color: #2d3748;
+                    margin-bottom: 10px;
+                    padding-bottom: 5px;
+                    border-bottom: 2px solid #e2e8f0;
+                    font-size: 0.95rem;
+                }
+            </style>
+
+            {% set day_names = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] %}
+
+            {% for day_num in range(5) %}
+            {% if availability.get(day_num) %}
+            <div class="day-section">
+                <div class="day-header">{{ day_names[day_num] }}</div>
+                <div class="time-grid">
+                    {% for slot in availability[day_num] %}
+                    <form action="{{ url_for('toggle_availability', slot_id=slot.id) }}" method="POST"
+                        style="margin: 0;">
+                        <button type="submit"
+                            class="time-slot {{ 'available' if slot.is_available else 'unavailable' }}"
+                            style="width: 100%; border: none;">
+                            {{ slot.start_time }} - {{ slot.end_time }}
+                        </button>
+                    </form>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
