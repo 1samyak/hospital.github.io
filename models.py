@@ -1,3 +1,6 @@
+""" 
+This file contains the database models for the Hospital Management System. 
+"""
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
