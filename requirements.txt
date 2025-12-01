@@ -1,10 +1,6 @@
-Flask>=2.0
-Flask-SQLAlchemy>=2.5
-SQLAlchemy>=1.4
-Werkzeug>=2.0
+Flask
+Flask-SQLAlchemy
+SQLAlchemy
+Werkzeug
+gunicorn
 
-# Optional / recommended for deployment
-# gunicorn  # use when deploying to Linux servers (not required for local dev on Windows)
-
-# To install pinned dependencies use:
-# pip install -r requirements.txt
